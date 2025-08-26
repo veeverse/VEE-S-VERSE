@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vee's Verse — Blog</title>
+  <meta name="description" content="A dreamy, slightly dark personal blog." />
+  <meta property="og:title" content="Vee's Verse — Blog" />
+  <meta property="og:description" content="A dreamy, slightly dark personal blog." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#1b1b1f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0f0f12;
+      --surface: #16161a;
+      --text: #eaeaf2;
+      --muted: #a6a6b3;
+      --accent: #b389ff; /* lavender */
+      --accent-2: #88e0c6; /* soft green */
+      --card: #1b1b22;
+      --border: #2a2a33;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    /* Light theme */
+    .light{
+      --bg: #faf8ff;
+      --surface: #ffffff;
+      --text: #1a1a20;
+      --muted: #58586b;
+      --accent: #6b4eff;
+      --accent-2: #0fa3b1;
+      --card: #ffffff;
+      --border: #e9e7f2;
+      --shadow: 0 10px 24px rgba(40, 30, 80, .12);
+    }
+
+    html,body{height:100%}
+    body{
+      margin:0; background: var(--bg); color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.6; letter-spacing:.2px;
+    }
+    a{color: inherit; text-decoration: none}
+    .container{max-width: 1040px; margin:0 auto; padding: 24px}
+
+    /* Header */
+    header{
+      position: sticky; top:0; z-index: 8; backdrop-filter: blur(10px);
+      background: color-mix(in oklab, var(--bg) 78%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav{
+      display:flex; align-items:center; gap:14px; padding: 14px 0;
+    }
+    .brand{
+      font-family: "Playfair Display", serif; font-weight:700; letter-spacing:.4px;
+      font-size: clamp(22px, 2.4vw, 28px);
+      background: linear-gradient(92deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .spacer{flex:1}
+    .icon-btn{
+      border:1px solid var(--border); background:var(--surface); color:var(--text);
+      border-radius: 999px; padding:10px 14px; display:inline-flex; align-items:center; gap:8px;
+      box-shadow: var(--shadow); cursor:pointer; transition: transform .12s ease, background .2s;
+    }
+    .icon-btn:hover{transform: translateY(-1px)}
+
+    /* Hero */
+    .hero{display:grid; grid-template-columns: 1.1fr .9fr; gap:24px; align-items: center; padding: 36px 0}
+    .hero-card{
+      background: radial-gradient(1200px 600px at 10% 10%, color-mix(in oklab, var(--accent) 16%, transparent), transparent),
+                  radial-gradient(900px 500px at 90% 10%, color-mix(in oklab, var(--accent-2) 16%, transparent), transparent),
+                  var(--card);
+      border:1px solid var(--border); border-radius: calc(var(--radius) * 1.5);
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 32px);
+    }
+    .hero h1{font-family: "Playfair Display", serif; font-size: clamp(28px, 4vw, 44px); line-height:1.15; margin:0 0 8px}
+    .hero p{margin:0; color: var(--muted)}
+
+    .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+    .input, select{
+      background: var(--surface); border:1px solid var(--border); color:var(--text);
+      border-radius: 12px; padding:10px 12px; outline:none; min-width: 200px;
+    }
+
+    /* Grid */
+    .grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:18px}
+    @media (max-width: 920px){ .hero{grid-template-columns: 1fr} .grid{grid-template-columns: repeat(2, 1fr)} }
+    @media (max-width: 620px){ .grid{grid-template-columns: 1fr} }
+
+    .post{
+      background: var(--card); border:1px solid var(--border); border-radius: var(--radius);
+      overflow: clip; display:flex; flex-direction: column; box-shadow: var(--shadow);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .post:hover{transform: translateY(-3px)}
+    .thumb{aspect-ratio: 16/9; background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 24%, transparent), color-mix(in oklab, var(--accent-2) 24%, transparent));}
+    .post-body{padding:14px 14px 16px}
+    .post-title{font-weight:700; font-size: 18px; margin: 6px 0}
+    .meta{font-size: 12px; color: var(--muted)}
+    .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+    .tag{font-size:12px; border:1px dashed var(--border); padding:4px 8px; border-radius:999px; color:var(--muted)}
+
+    /* Article */
+    .article{
+      max-width: 820px; margin: 0 auto; background: var(--card); border:1px solid var(--border);
+      border-radius: calc(var(--radius) * 1.25); padding: clamp(18px, 3vw, 36px); box-shadow: var(--shadow)
+    }
+    .article h1{font-family: "Playfair Display", serif; font-size: clamp(26px, 4vw, 40px); margin:0 0 4px}
+    .article .meta{margin-bottom: 14px}
+    .article img{max-width:100%; border-radius: 16px}
+    .article p{margin: 14px 0}
+    .article pre{background: #0a0a0d; color:#e6e6f0; padding:14px; border-radius:12px; overflow:auto}
+    .article code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+
+    /* Footer */
+    footer{border-top:1px solid var(--border); margin-top: 32px; padding: 20px 0; color: var(--muted)}
+
+    /* Utilities */
+    .hidden{display:none}
+    .row{display:flex; gap:10px; align-items:center}
+    .pill{font-size:12px; border:1px solid var(--border); border-radius:999px; padding:6px 10px; color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#/">Vee's Verse</a>
+      <span class="pill">blog</span>
+      <div class="spacer"></div>
+      <button id="themeBtn" class="icon-btn" aria-label="Toggle theme">🌓 <span class="hide-sm">Theme</span></button>
+      <a class="icon-btn" href="#/about" aria-label="About">✨ About</a>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+    <!-- Content is injected here by JS router -->
+  </main>
+
+  <footer class="container">
+    <div class="row" style="justify-content: space-between; flex-wrap:wrap">
+      <small>© <span id="year"></span> Vee's Verse • Built from scratch ✨</small>
+      <small>Made with plain HTML/CSS/JS — no frameworks.</small>
+    </div>
+  </footer>
+
+  <script>
+    // ---------------------
+    // Minimal client router
+    // ---------------------
+    const qs = (s, el=document) => el.querySelector(s);
+    const app = qs('#app');
+
+    const state = {
+      posts: [
+        {
+          id: 'first-post',
+          title: 'Hello, Moon — First Post',
+          date: '2025-08-25',
+          tags: ['intro','dreams'],
+          cover: '',
+          excerpt: 'Welcome to my dreamy corner of the web. Here\'s how this blog works and what I\'ll write about.',
+          content: `
+            <p>Welcome to <strong>Vee's Verse</strong> — a cozy archive of art, science, and soft midnight thoughts.</p>
+            <p>This blog is <em>fully from scratch</em>: no frameworks, just HTML, CSS, and tiny JavaScript. I\'ll share poems, project updates, and my journey toward medicine and making.</p>
+            <h2>What to expect</h2>
+            <ul>
+              <li>Short essays and creative fragments</li>
+              <li>Behind-the-scenes of crafts & code</li>
+              <li>Study logs and templates</li>
+            </ul>
+            <p>Whisper back in the comments (coming soon). For now, enjoy and explore ✨</p>
+          `
+        },
+        {
+          id: 'study-rituals',
+          title: 'Study Rituals That Actually Feel Magical',
+          date: '2025-08-20',
+          tags: ['study','templates'],
+          cover: '',
+          excerpt: 'Soft routines, real results — my three-part ritual you can copy today.',
+          content: `
+            <p>My ritual: <strong>reset</strong> (5 mins tidy), <strong>prime</strong> (playlist, tea), <strong>focus</strong> (45/10 timer). It works because it\'s tiny but repeatable.</p>
+            <pre><code>Ritual Checklist\n[ ] Reset desk\n[ ] Tea + playlist\n[ ] 45/10 timer x 3\n[ ] Quick recap</code></pre>
+          `
+        },
+        {
+          id: 'crochet-moon',
+          title: 'Crochet Moon Charm (Free Pattern)',
+          date: '2025-08-18',
+          tags: ['craft','tutorial'],
+          cover: '',
+          excerpt: 'A tiny moon you can finish in one cozy evening.',
+          content: `
+            <p>Yarn: DK weight. Hook: 3.5mm. Make two crescents, stitch, stuff lightly, add jump ring.</p>
+            <p>Pattern soon as printable PDF!</p>
+          `
+        }
+      ],
+      theme: localStorage.getItem('theme') || 'dark'
+    };
+
+    function setTheme(mode){
+      document.body.classList.toggle('light', mode === 'light');
+      state.theme = mode; localStorage.setItem('theme', mode);
+    }
+
+    // ----------
+    // Utilities
+    // ----------
+    function formatDate(iso){
+      const d = new Date(iso + 'T00:00:00');
+      return d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric'});
+    }
+    function slugify(s){
+      return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    }
+
+    // ---------
+    // Views
+    // ---------
+    function HomeView(){
+      const url = new URL(location.href);
+      const q = url.searchParams.get('q')?.toLowerCase() || '';
+      const tag = url.searchParams.get('tag') || '';
+
+      let posts = [...state.posts].sort((a,b)=> b.date.localeCompare(a.date));
+      if(q){ posts = posts.filter(p => (p.title + p.excerpt + p.content).toLowerCase().includes(q)); }
+      if(tag){ posts = posts.filter(p => p.tags.includes(tag)); }
+
+      const allTags = [...new Set(state.posts.flatMap(p => p.tags))].sort();
+
+      return `
+        <section class="hero">
+          <div class="hero-card">
+            <h1>Dreamy notes for curious nights</h1>
+            <p>Writing about crafts, study, code, and soft science. Built from scratch — you can copy this file and make it yours.</p>
+            <div class="controls">
+              <input class="input" id="search" placeholder="Search posts..." value="${q}" />
+              <select id="tagSel" class="input">
+                <option value="">All tags</option>
+                ${allTags.map(t=>`<option ${t===tag?'selected':''} value="${t}">${t}</option>`).join('')}
+              </select>
+              <a class="icon-btn" href="#/new">➕ New Post (dev)</a>
+            </div>
+          </div>
+          <div class="hero-card">
+            <p><strong>How to add a post</strong></p>
+            <ol>
+              <li>Click <em>New Post (dev)</em> to generate JSON.</li>
+              <li>Copy the object into the <code>state.posts</code> array in this file.</li>
+              <li>Change <code>id</code> to a unique slug. Save & refresh.</li>
+            </ol>
+            <p class="meta">No database needed. When ready, split posts into a <code>posts.json</code> and fetch it.</p>
+          </div>
+        </section>
+
+        <section class="grid" aria-label="Post list">
+          ${posts.map(Card).join('') || `<p class="meta">No posts found.</p>`}
+        </section>
+      `;
+    }
+
+    function Card(p){
+      const cover = p.cover ? `<img class="thumb" alt="" src="${p.cover}">` : `<div class="thumb" role="img" aria-label="abstract gradient"></div>`;
+      return `
+        <article class="post">
+          <a href="#/post/${p.id}" aria-label="Read: ${p.title}">
+            ${cover}
+            <div class="post-body">
+              <div class="meta">${formatDate(p.date)} • ${p.tags.map(t=>`#${t}`).join(' ')}</div>
+              <h2 class="post-title">${p.title}</h2>
+              <p class="meta">${p.excerpt}</p>
+              <div class="tags">${p.tags.map(t=>`<a class="tag" href="?tag=${t}#/">${t}</a>`).join('')}</div>
+            </div>
+          </a>
+        </article>
+      `;
+    }
+
+    function PostView(id){
+      const p = state.posts.find(x => x.id === id);
+      if(!p){ return NotFound(); }
+      return `
+        <article class="article" itemscope itemtype="https://schema.org/BlogPosting">
+          <a class="meta" href="#/">← Back</a>
+          <h1 itemprop="headline">${p.title}</h1>
+          <div class="meta">${formatDate(p.date)} • ${p.tags.map(t=>`<a href="?tag=${t}#/">#${t}</a>`).join(' ')}</div>
+          ${p.cover ? `<img src="${p.cover}" alt="cover image">` : ''}
+          <div class="content" itemprop="articleBody">${p.content}</div>
+        </article>
+      `;
+    }
+
+    function NewPostDev(){
+      // quick helper to generate a new post object you can paste into state.posts
+      const now = new Date();
+      const title = 'Your New Post Title';
+      const id = slugify(title);
+      const obj = {
+        id,
+        title,
+        date: now.toISOString().slice(0,10),
+        tags: ['tag1','tag2'],
+        cover: '',
+        excerpt: 'One-liner teaser for the homepage.',
+        content: `<p>Write your post here with <strong>basic HTML</strong>: paragraphs, <em>emphasis</em>, <code>code</code>, lists, and images.</p>`
+      };
+      return `
+        <article class="article">
+          <a class="meta" href="#/">← Back</a>
+          <h1>New Post (dev)</h1>
+          <p>Copy this JSON and paste it into <code>state.posts</code> (top of this file).</p>
+          <pre><code>${JSON.stringify(obj, null, 2)}</code></pre>
+          <p class="meta">Tip: Change <code>title</code> first, then update <code>id</code> if needed.</p>
+        </article>
+      `;
+    }
+
+    function About(){
+      return `
+        <article class="article">
+          <a class="meta" href="#/">← Back</a>
+          <h1>About Vee's Verse</h1>
+          <p>Hi, I\'m Vee — I make art, code, poetry, and study plans. This space is a scrapbook of everything I learn and love.</p>
+          <p>Built with love and <code>&lt;div&gt;</code>s. No cookies, no trackers.</p>
+        </article>
+      `;
+    }
+
+    function NotFound(){
+      return `
+        <article class="article">
+          <a class="meta" href="#/">← Back</a>
+          <h1>404 — Lost in the mist</h1>
+          <p>That page doesn\'t exist yet.</p>
+        </article>
+      `;
+    }
+
+    function render(){
+      const hash = location.hash.slice(2); // remove #/
+      const [route, param] = hash.split('/');
+      let html = '';
+      if(!route){ html = HomeView(); }
+      else if(route === 'post'){ html = PostView(param); }
+      else if(route === 'new'){ html = NewPostDev(); }
+      else if(route === 'about'){ html = About(); }
+      else { html = NotFound(); }
+      app.innerHTML = html;
+
+      // wire up search + tag UI
+      const s = qs('#search');
+      if(s){ s.addEventListener('input', (e)=>{
+        const url = new URL(location.href); url.searchParams.set('q', e.target.value); history.replaceState({}, '', url.pathname + url.search + '#/'); render();
+      })}
+      const tagSel = qs('#tagSel');
+      if(tagSel){ tagSel.addEventListener('change', (e)=>{
+        const url = new URL(location.href); if(e.target.value) url.searchParams.set('tag', e.target.value); else url.searchParams.delete('tag'); history.replaceState({}, '', url.pathname + url.search + '#/'); render();
+      })}
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    // Init
+    setTheme(state.theme);
+    qs('#themeBtn').addEventListener('click', ()=> setTheme(state.theme === 'dark' ? 'light' : 'dark'));
+    document.addEventListener('keydown', (e)=>{ if(e.key === 't' && (e.ctrlKey||e.metaKey)) { setTheme(state.theme === 'dark' ? 'light' : 'dark') } });
+    window.addEventListener('hashchange', render);
+    window.addEventListener('DOMContentLoaded', ()=> { render(); qs('#year').textContent = new Date().getFullYear(); });
+  </script>
+</body>
+</html>
